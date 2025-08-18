@@ -49,32 +49,7 @@ const App: React.FC = () => {
   const [openSection, setOpenSection] = useState<string | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const applyStyles = () => {
-      const input = document.querySelector('.nuvo__transformation-input');
-      if (input) input.style.display = 'none';
-
-      const transformation = document.querySelector('.nuvo__transformation-transformation');
-      if (transformation) transformation.style.display = 'none';
-
-      const mappings = document.querySelector('.nuvo__transformation-mappings');
-      const container = document.querySelector('.wide-content');
-      if (mappings && container) {
-        const containerWidth = container.clientWidth;
-        mappings.style.minWidth = `${containerWidth / 2}px`;
-      }
-    };
-
-    applyStyles();
-
-    const observer = new MutationObserver(() => {
-      applyStyles();
-    });
-
-    observer.observe(document.body, { childList: true, subtree: true });
-
-    return () => observer.disconnect();
-  }, []);
+  // Removed code that forcibly hides parts of the embedded pipeline component
 
   const toggleSection = (section: string) => {
     setOpenSection((prev) => (prev === section ? null : section));

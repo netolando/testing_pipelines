@@ -24,7 +24,14 @@ const CreatePipelineEmbed: React.FC = () => {
       <div className="embed-container">
         <CreatePipeline
           accessToken={accessToken}
-          settings={{ modal: true }}
+          configuration={{
+            tdmId: "68a38fe6ba7ddf8a13335f6b",
+            outputConnectorId: "683054fd65dd47b2d44f4524",
+          }}
+          settings={{
+            modal: true,
+            runPipelineOnCreation: true
+          }}
         />
       </div>
     </div>
