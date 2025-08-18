@@ -50,6 +50,7 @@ body {
   display: flex;
   min-height: 100vh;
   width: 100%;
+  background-color: var(--nuvo-dark-blue);
 }
 
 .main-content {
@@ -70,15 +71,28 @@ body {
   padding: 48px 40px;
 }
 
+.content-title {
+  font-family: 'Haffer Regular', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  color: var(--nuvo-dark-blue);
+  margin-bottom: 2rem;
+}
+
 /* Sidebar */
 .sidebar {
-  width: 80px;
+  width: 120px;
   background: var(--nuvo-white);
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.07);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 24px 0;
+  transition: width 0.3s ease;
+}
+
+.sidebar:hover {
+  width: 220px;
 }
 
 .sidebar-logo {
@@ -89,7 +103,8 @@ body {
 }
 
 .sidebar-button {
-  width: 64px;
+  width: 100%;
+  max-width: 180px;
   height: 48px;
   border-radius: 16px;
   background: var(--nuvo-white);
@@ -97,13 +112,14 @@ body {
   font-weight: 700;
   font-size: 1rem;
   border: none;
-  margin-bottom: 8px;
+  margin: 0 auto 8px;
   box-shadow: none;
   cursor: pointer;
   transition:
-    background 0.2s,
-    color 0.2s,
-    box-shadow 0.2s;
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s,
+    transform 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,8 +127,10 @@ body {
 
 .sidebar-button.active,
 .sidebar-button:hover {
-  background: var(--nuvo-yellow);
+  background: var(--nuvo-blue);
+  color: var(--nuvo-white);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateX(4px);
 }
 
 .sidebar-section {
@@ -124,7 +142,8 @@ body {
 }
 
 .sidebar-section-toggle {
-  width: 64px;
+  width: 100%;
+  max-width: 180px;
   height: 48px;
   border-radius: 16px;
   background: var(--nuvo-white);
@@ -132,13 +151,14 @@ body {
   font-weight: 700;
   font-size: 1rem;
   border: none;
-  margin-bottom: 8px;
+  margin: 0 auto 8px;
   box-shadow: none;
   cursor: pointer;
   transition:
-    background 0.2s,
-    color 0.2s,
-    box-shadow 0.2s;
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s,
+    transform 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -146,8 +166,10 @@ body {
 
 .sidebar-section-toggle.open,
 .sidebar-section-toggle:hover {
-  background: var(--nuvo-yellow);
+  background: var(--nuvo-blue);
+  color: var(--nuvo-white);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateX(4px);
 }
 
 .sidebar-submenu {
@@ -155,6 +177,20 @@ body {
   flex-direction: column;
   gap: 8px;
   margin-top: 4px;
+  padding-left: 12px;
+  overflow: hidden;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Component Styling */
@@ -393,4 +429,75 @@ h1.component-title {
   padding: 12px 16px;
   background: #1a2537;
   border-bottom: none;
+}
+
+/* Auth Modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.stylish-modal.auth-modal {
+  background: var(--nuvo-light-gray);
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  min-width: 400px;
+  max-width: 400px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18),
+    0 0 12px rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-title {
+  font-family: 'Haffer Regular', sans-serif;
+  font-size: 2rem;
+  color: var(--nuvo-dark-blue);
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.auth-mode-toggle {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.auth-mode-toggle .button {
+  background: var(--nuvo-light-gray);
+  color: var(--nuvo-dark-blue);
+  width: auto;
+  padding: 12px 24px;
+  margin: 0 0.5rem;
+}
+
+.auth-mode-toggle .button.active {
+  background: var(--nuvo-blue);
+  color: var(--nuvo-white);
+}
+
+.auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.auth-form .input {
+  width: 100%;
+}
+
+.auth-form .button {
+  width: 100%;
 }

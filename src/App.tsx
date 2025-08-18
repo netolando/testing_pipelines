@@ -17,30 +17,9 @@ import AuthModal from "./auth/AuthModal";
 
 import "./styles.css";
 
-// Sidebar button styled like the provided design
+// Sidebar button styled using global classes
 const SidebarButton: React.FC<{ active: boolean; onClick: () => void; label: string }> = ({ active, onClick, label }) => (
-  <button
-    onClick={onClick}
-    style={{
-      width: '100%',
-      height: '48px',
-      borderRadius: '12px',
-      background: active ? '#2563eb' : '#fff',
-      color: active ? '#fff' : '#162338',
-      fontWeight: 700,
-      fontFamily: "'Inter', 'Haffer Regular', Arial, sans-serif",
-      fontSize: '1rem',
-      border: 'none',
-      margin: '0 auto',
-      marginBottom: '8px',
-      boxShadow: active ? '0 4px 12px rgba(0,0,0,0.08)' : 'none',
-      cursor: 'pointer',
-      transition: 'background 0.2s, color 0.2s',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}
-  >
+  <button onClick={onClick} className={`sidebar-button${active ? " active" : ""}`}> 
     {label}
   </button>
 );
@@ -51,33 +30,12 @@ const SidebarSection: React.FC<{
   onClick: () => void;
   buttons: { label: string; active: boolean; onClick: () => void }[];
 }> = ({ label, open, onClick, buttons }) => (
-  <div style={{ width: '100%' }}>
-    <button
-      onClick={onClick}
-      style={{
-        width: '100%',
-        height: '48px',
-        borderRadius: '12px',
-        background: open ? '#2563eb' : '#fff',
-        color: open ? '#fff' : '#162338',
-        fontWeight: 700,
-        fontFamily: "'Inter', 'Haffer Regular', Arial, sans-serif",
-        fontSize: '1rem',
-        border: 'none',
-        margin: '0 auto',
-        marginBottom: '8px',
-        boxShadow: open ? '0 4px 12px rgba(0,0,0,0.08)' : 'none',
-        cursor: 'pointer',
-        transition: 'background 0.2s, color 0.2s',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+  <div className="sidebar-section">
+    <button onClick={onClick} className={`sidebar-section-toggle${open ? " open" : ""}`}>
       {label}
     </button>
     {open && (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginLeft: '0', marginTop: '4px' }}>
+      <div className="sidebar-submenu">
         {buttons.map((btn) => (
           <SidebarButton key={btn.label} {...btn} />
         ))}
@@ -161,22 +119,8 @@ const App: React.FC = () => {
         <AuthModal onAuthenticated={() => setAuthenticated(true)} />
       )}
       {authenticated && (
-        <div style={{ background: '#162338', minHeight: '100vh', width: '100vw', display: 'flex' }}>
-          <aside
-            style={{
-              width: '8%',
-              minWidth: '120px',
-              maxWidth: '220px',
-              background: '#fff',
-              boxShadow: '2px 0 12px rgba(0,0,0,0.07)',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              padding: '24px 0',
-              gap: '16px',
-              fontFamily: "'Inter', 'Haffer Regular', Arial, sans-serif",
-            }}
-          >
+        <div className="app-container">
+          <aside className="sidebar">
             <div className="sidebar-logo-container">
               <img
                 src="src/public/Logo_Darkblue.svg"
@@ -246,14 +190,14 @@ const App: React.FC = () => {
             />
           </aside>
 
-          <main style={{ flex: 1, padding: '0', marginLeft: '8%', minHeight: '100vh', background: '#162338', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', fontFamily: "'Inter', 'Haffer Regular', Arial, sans-serif" }}>
+          <main className="main-content">
             {["CreatePipeline", "PipelineList", "PipelineDetails", "ExecutionList", "ExecutionDetails"].includes(activeTab) ? (
-              <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+              <div className="embed-container">
                 {renderTabContent()}
               </div>
             ) : (
-              <div className="main-box" style={{ background: '#fff', color: '#162338', marginTop: '48px', borderRadius: '16px', boxShadow: '0 12px 30px rgba(0,0,0,0.07)', width: '90%', maxWidth: '900px', padding: '48px 40px', fontFamily: "'Inter', 'Haffer Regular', Arial, sans-serif" }}>
-                <h1 style={{ fontFamily: 'Haffer Regular', fontWeight: 700, fontSize: '2rem', color: '#162338', marginBottom: '2rem' }}>
+              <div className="content-box">
+                <h1 className="content-title">
                   {{
                     AccessToken: "Access Token",
                     CreateConnector: "Create Connector",
