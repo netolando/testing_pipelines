@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AccessTokenComponent from "./components/AccessTokenComponent";
 import CreateConnectorComponent from "./components/CreateConnectorComponent";
 import ReadConnectorComponent from "./components/ReadConnectorComponent";
@@ -8,7 +8,6 @@ import ReadTDMsComponent from "./components/ReadTDMsComponent";
 import ReadUsersComponent from "./components/ReadUsersComponent";
 import CreatePipelineEmbed from "./components/CreatePipelineEmbed";
 import ExecutionListEmbed from "./components/ExecutionListEmbed";
-import PipelineListEmbed from "./components/PipelineListEmbed";
 import PipelineDetailsEmbed from "./components/PipelineDetailsEmbed";
 import FileUploadEmbeddable from "./components/FileUploadEmbeddable";
 import { AuthProvider } from "./auth/AuthContext";
@@ -74,8 +73,6 @@ const App: React.FC = () => {
         return <CreatePipelineEmbed />;
       case "ExecutionList":
         return <ExecutionListEmbed />;
-      case "PipelineList":
-        return <PipelineListEmbed />;
       case "PipelineDetails":
         return <PipelineDetailsEmbed />;
       case "FileUpload":
@@ -140,7 +137,6 @@ const App: React.FC = () => {
               onClick={() => toggleSection("Pipelines")}
               buttons={[
                 { label: "Create", active: activeTab === "CreatePipeline", onClick: () => setActiveTab("CreatePipeline") },
-                { label: "List", active: activeTab === "PipelineList", onClick: () => setActiveTab("PipelineList") },
                 { label: "Details", active: activeTab === "PipelineDetails", onClick: () => setActiveTab("PipelineDetails") },
               ]}
             />
@@ -162,27 +158,12 @@ const App: React.FC = () => {
           </aside>
 
           <main className="main-content">
-            {["CreatePipeline", "PipelineList", "PipelineDetails", "ExecutionList"].includes(activeTab) ? (
+            {["CreatePipeline", "PipelineDetails", "ExecutionList", "FileUpload"].includes(activeTab) ? (
               <div className="embed-container">
                 {renderTabContent()}
               </div>
             ) : (
               <div className="content-box">
-                <h1 className="content-title">
-                  {{
-                    AccessToken: "Access Token",
-                    CreateConnector: "Create Connector",
-                    ReadConnector: "Read Connectors",
-                    DeleteConnector: "Delete Connector",
-                    CreateTDM: "Create TDM",
-                    ReadTDMs: "Read TDMs",
-                    ReadUsers: "Read Users",
-                    CreatePipeline: "Create Pipeline",
-                    PipelineList: "Pipeline List",
-                    PipelineDetails: "Pipeline Details",
-                    ExecutionList: "Execution List",
-                  }[activeTab] || "App"}
-                </h1>
                 {renderTabContent()}
               </div>
             )}

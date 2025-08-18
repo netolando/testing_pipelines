@@ -34,7 +34,6 @@ const FileUploadEmbeddable: React.FC = () => {
 
     return (
         <div className="component-container">
-            <h2>File Upload Embeddable</h2>
             {error && <div className="error-box">{error}</div>}
             <div className="form">
                 <label htmlFor="connector-select" style={{ fontWeight: 600, marginBottom: 8 }}>
@@ -63,7 +62,7 @@ const FileUploadEmbeddable: React.FC = () => {
                         settings={{
                             i18nOverrides: {},
                             language: "en",
-                            modal: true,
+                            modal: false,
                             allowedFileTypes: ["csv", "tsv", "xls", "xlsx", "json", "xml"],
                         }}
                         onExecutionView={({ execution }) => {

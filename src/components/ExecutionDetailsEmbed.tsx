@@ -9,10 +9,10 @@ const ExecutionDetailsEmbed: React.FC = () => {
 
   return (
     <div className="component-container">
-      <h2>Execution Details (Embedded)</h2>
-      <div className="embed-container">
-        <ExecutionDetails accessToken={accessToken || ""} />
-      </div>
+      <ExecutionDetails
+        accessToken={accessToken || ""}
+        settings={{ modal: false }}
+      />
     </div>
   );
 };
