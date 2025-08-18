@@ -8,7 +8,6 @@ import ReadTDMsComponent from "./components/ReadTDMsComponent";
 import ReadUsersComponent from "./components/ReadUsersComponent";
 import CreatePipelineEmbed from "./components/CreatePipelineEmbed";
 import ExecutionListEmbed from "./components/ExecutionListEmbed";
-import ExecutionDetailsEmbed from "./components/ExecutionDetailsEmbed";
 import PipelineListEmbed from "./components/PipelineListEmbed";
 import PipelineDetailsEmbed from "./components/PipelineDetailsEmbed";
 import FileUploadEmbeddable from "./components/FileUploadEmbeddable";
@@ -100,8 +99,6 @@ const App: React.FC = () => {
         return <CreatePipelineEmbed />;
       case "ExecutionList":
         return <ExecutionListEmbed />;
-      case "ExecutionDetails":
-        return <ExecutionDetailsEmbed />;
       case "PipelineList":
         return <PipelineListEmbed />;
       case "PipelineDetails":
@@ -178,8 +175,7 @@ const App: React.FC = () => {
               open={openSection === "Execution"}
               onClick={() => toggleSection("Execution")}
               buttons={[
-                { label: "List", active: activeTab === "ExecutionList", onClick: () => setActiveTab("ExecutionList") },
-                { label: "Details", active: activeTab === "ExecutionDetails", onClick: () => setActiveTab("ExecutionDetails") },
+                { label: "List", active: activeTab === "ExecutionList", onClick: () => setActiveTab("ExecutionList") }
               ]}
             />
 
@@ -191,7 +187,7 @@ const App: React.FC = () => {
           </aside>
 
           <main className="main-content">
-            {["CreatePipeline", "PipelineList", "PipelineDetails", "ExecutionList", "ExecutionDetails"].includes(activeTab) ? (
+            {["CreatePipeline", "PipelineList", "PipelineDetails", "ExecutionList"].includes(activeTab) ? (
               <div className="embed-container">
                 {renderTabContent()}
               </div>
@@ -210,7 +206,6 @@ const App: React.FC = () => {
                     PipelineList: "Pipeline List",
                     PipelineDetails: "Pipeline Details",
                     ExecutionList: "Execution List",
-                    ExecutionDetails: "Execution Details",
                   }[activeTab] || "App"}
                 </h1>
                 {renderTabContent()}
