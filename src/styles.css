@@ -64,7 +64,7 @@ body {
 
 .content-box {
   background-color: var(--nuvo-white);
-  border-radius: 16px;
+  border-radius: 0;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.07);
   width: 100%;
   max-width: 900px;
@@ -81,18 +81,13 @@ body {
 
 /* Sidebar */
 .sidebar {
-  width: 120px;
+  width: 220px;
   background: var(--nuvo-white);
   box-shadow: 2px 0 12px rgba(0, 0, 0, 0.07);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   padding: 24px 0;
-  transition: width 0.3s ease;
-}
-
-.sidebar:hover {
-  width: 220px;
 }
 
 .sidebar-logo {
@@ -104,22 +99,20 @@ body {
 
 .sidebar-button {
   width: 100%;
-  max-width: 180px;
   height: 48px;
-  border-radius: 16px;
+  border-radius: 0;
   background: var(--nuvo-white);
   color: var(--nuvo-dark-blue);
   font-weight: 700;
   font-size: 1rem;
   border: none;
-  margin: 0 auto 8px;
+  margin: 0 0 8px;
   box-shadow: none;
   cursor: pointer;
   transition:
     background 0.3s,
     color 0.3s,
-    box-shadow 0.3s,
-    transform 0.3s;
+    box-shadow 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -130,35 +123,32 @@ body {
   background: var(--nuvo-blue);
   color: var(--nuvo-white);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transform: translateX(4px);
 }
 
 .sidebar-section {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   margin-bottom: 16px;
 }
 
 .sidebar-section-toggle {
   width: 100%;
-  max-width: 180px;
   height: 48px;
-  border-radius: 16px;
+  border-radius: 0;
   background: var(--nuvo-white);
   color: var(--nuvo-dark-blue);
   font-weight: 700;
   font-size: 1rem;
   border: none;
-  margin: 0 auto 8px;
+  margin: 0 0 8px;
   box-shadow: none;
   cursor: pointer;
   transition:
     background 0.3s,
     color 0.3s,
-    box-shadow 0.3s,
-    transform 0.3s;
+    box-shadow 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -169,7 +159,6 @@ body {
   background: var(--nuvo-blue);
   color: var(--nuvo-white);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transform: translateX(4px);
 }
 
 .sidebar-submenu {
@@ -177,9 +166,14 @@ body {
   flex-direction: column;
   gap: 8px;
   margin-top: 4px;
-  padding-left: 12px;
+  padding-left: 0;
   overflow: hidden;
   animation: fadeIn 0.2s ease;
+}
+
+.sidebar-submenu .sidebar-button {
+  text-align: left;
+  padding-left: 12px;
 }
 
 @keyframes fadeIn {
@@ -196,6 +190,12 @@ body {
 /* Component Styling */
 .component-container {
   width: 100%;
+}
+
+.component-container h1,
+.component-container h2,
+.component-container h3 {
+  color: var(--nuvo-white);
 }
 
 h1.component-title {
@@ -401,6 +401,9 @@ h1.component-title {
   border-collapse: collapse;
   background: var(--nuvo-dark-blue);
   color: var(--nuvo-white);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .dark-table th,
@@ -422,6 +425,10 @@ h1.component-title {
 
 .dark-table .clickable-row {
   cursor: pointer;
+}
+
+.dark-table tbody tr:nth-child(even) {
+  background: #1f2d4a;
 }
 
 /* Optional details row styling for tables that show expandable rows */
