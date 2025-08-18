@@ -105,7 +105,6 @@ const ExecutionListEmbed: React.FC = () => {
   if (!accessToken) {
     return (
       <div className="component-container">
-        <h2>Execution Viewer</h2>
         <p style={{ color: "#fff" }}>Please authenticate first.</p>
       </div>
     );
@@ -113,7 +112,6 @@ const ExecutionListEmbed: React.FC = () => {
 
   return (
     <div className="component-container">
-      <h2>Execution Viewer</h2>
       {error && <div className="error-box">{error}</div>}
 
       {!selectedPipeline && !selectedExecution && (
@@ -210,13 +208,11 @@ const ExecutionListEmbed: React.FC = () => {
           >
             ← Back to Executions
           </button>
-          <div className="embed-container">
-            <ExecutionDetails
-              accessToken={accessToken}
-              executionId={selectedExecution.id}
-              settings={{ modal: false }}
-            />
-          </div>
+          <ExecutionDetails
+            accessToken={accessToken}
+            executionId={selectedExecution.id}
+            settings={{ modal: false }}
+          />
         </>
       )}
     </div>

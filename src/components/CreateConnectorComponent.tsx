@@ -10,8 +10,6 @@ const CreateConnectorComponent: React.FC = () => {
 
   return (
     <div className="component-container">
-      <h2>Create Connector (Embedded)</h2>
-
       <CreateConnector
         accessToken={accessToken || ""}
         configuration={{

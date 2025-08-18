@@ -9,10 +9,10 @@ const PipelineListEmbed: React.FC = () => {
 
   return (
     <div className="component-container">
-      <h2>Pipeline List (Embedded)</h2>
-      <div className="embed-container">
-        <PipelineList accessToken={accessToken || ""} />
-      </div>
+      <PipelineList
+        accessToken={accessToken || ""}
+        settings={{ modal: false }}
+      />
     </div>
   );
 };

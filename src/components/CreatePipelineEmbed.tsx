@@ -10,7 +10,6 @@ const CreatePipelineEmbed: React.FC = () => {
   if (!accessToken) {
     return (
       <div className="component-container">
-        <h2>Create Pipeline (Embedded)</h2>
         <p style={{ color: "#fff" }}>
           Please authenticate first to create a pipeline.
         </p>
@@ -20,20 +19,17 @@ const CreatePipelineEmbed: React.FC = () => {
 
   return (
     <div className="component-container">
-      <h2>Create Pipeline (Embedded)</h2>
-      <div className="embed-container">
-        <CreatePipeline
-          accessToken={accessToken}
-          configuration={{
-            tdmId: "68a38fe6ba7ddf8a13335f6b",
-            outputConnectorId: "683054fd65dd47b2d44f4524",
-          }}
-          settings={{
-            modal: true,
-            runPipelineOnCreation: true
-          }}
-        />
-      </div>
+      <CreatePipeline
+        accessToken={accessToken}
+        configuration={{
+          tdmId: "68a38fe6ba7ddf8a13335f6b",
+          outputConnectorId: "683054fd65dd47b2d44f4524",
+        }}
+        settings={{
+          modal: false,
+          runPipelineOnCreation: true,
+        }}
+      />
     </div>
   );
 };

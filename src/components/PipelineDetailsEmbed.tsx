@@ -15,16 +15,6 @@ const PipelineDetailsEmbed: React.FC = () => {
   );
   const [error, setError] = useState<string | null>(null);
 
-  const handleTokenSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!accessToken.trim()) {
-      setError("Please enter a valid access token.");
-      return;
-    }
-    setError(null);
-    setTokenReady(true);
-  };
-
   const handlePipelineSelect = ({ data }: { data: PipelineData }) => {
     if (data && data.id) {
       setSelectedPipelineId(data.id);
@@ -38,7 +28,7 @@ const PipelineDetailsEmbed: React.FC = () => {
   const renderContent = () => {
     if (selectedPipelineId) {
       return (
-        <div className="embed-container">
+        <div>
           <button
             onClick={handleBackToList}
             className="button"
@@ -49,23 +39,22 @@ const PipelineDetailsEmbed: React.FC = () => {
           <PipelineDetails
             accessToken={accessToken || ""}
             pipelineId={selectedPipelineId}
+            settings={{ modal: false }}
           />
         </div>
       );
     }
     return (
-      <div className="embed-container">
-        <PipelineList
-          accessToken={accessToken || ""}
-          onPipelineView={handlePipelineSelect}
-        />
-      </div>
+      <PipelineList
+        accessToken={accessToken || ""}
+        onPipelineView={handlePipelineSelect}
+        settings={{ modal: false }}
+      />
     );
   };
 
   return (
     <div className="component-container">
-      <h2>Pipeline Details (Embedded)</h2>
       {error && <div className="error-box">{error}</div>}
       {renderContent()}
     </div>
