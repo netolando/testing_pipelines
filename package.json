@@ -1,0 +1,42 @@
+{
+  "name": "react-typescript-nuvo",
+  "version": "1.0.0",
+  "description": "Nuvo Data Pipelines + React + TypeScript + Vite starter",
+  "keywords": [
+    "typescript",
+    "react",
+    "nuvo",
+    "vite"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@getnuvo/pipelines-react": "^0.11.0",
+    "file-saver": "^2.0.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "simplebar-react": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.7",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.0",
+    "@typescript-eslint/parser": "^8.32.1",
+    "@vitejs/plugin-react": "4.3.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.33.2",
+    "typescript": "5.2.2",
+    "vite": "5.4.8"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "main": "src/main.tsx",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
