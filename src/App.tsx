@@ -7,14 +7,12 @@ import CreateTDMComponent from "./components/CreateTDMComponent";
 import ReadTDMsComponent from "./components/ReadTDMsComponent";
 import ReadUsersComponent from "./components/ReadUsersComponent";
 import CreatePipelineEmbed from "./components/CreatePipelineEmbed";
-import ExecutionListEmbed from "./components/ExecutionListEmbed";
 import PipelineDetailsEmbed from "./components/PipelineDetailsEmbed";
 import FileUploadEmbeddable from "./components/FileUploadEmbeddable";
-import ConnectorListEmbed from "./components/ConnectorListEmbed";
 import ConnectorDetailsEmbed from "./components/ConnectorDetailsEmbed";
-import TargetDataModelListEmbed from "./components/TargetDataModelListEmbed";
 import TargetDataModelDetailsEmbed from "./components/TargetDataModelDetailsEmbed";
-import { AuthProvider } from "./auth/AuthContext";
+import LogoDarkblue from "./assets/Logo_Darkblue.svg";
+import { useAuth } from "./auth/AuthContext";
 import AuthModal from "./auth/AuthModal";
 
 import "./styles.css";
@@ -47,9 +45,9 @@ const SidebarSection: React.FC<{
 );
 
 const App: React.FC = () => {
+  const { accessToken, userName } = useAuth();
   const [activeTab, setActiveTab] = useState("AccessToken");
   const [openSection, setOpenSection] = useState<string | null>(null);
-  const [authenticated, setAuthenticated] = useState(false);
 
   // Removed code that forcibly hides parts of the embedded pipeline component
 
@@ -75,18 +73,12 @@ const App: React.FC = () => {
         return <ReadUsersComponent />;
       case "CreatePipeline":
         return <CreatePipelineEmbed />;
-      case "ExecutionList":
-        return <ExecutionListEmbed />;
       case "PipelineDetails":
         return <PipelineDetailsEmbed />;
       case "FileUpload":
         return <FileUploadEmbeddable />;
-      case "ConnectorList":
-        return <ConnectorListEmbed />;
       case "ConnectorDetails":
         return <ConnectorDetailsEmbed />;
-      case "TargetDataModelList":
-        return <TargetDataModelListEmbed />;
       case "TargetDataModelDetails":
         return <TargetDataModelDetailsEmbed />;
       default:
@@ -94,17 +86,24 @@ const App: React.FC = () => {
     }
   };
 
+  if (!accessToken) {
+    return <AuthModal />;
+  }
+
+  const handleCopyToken = () => {
+    navigator.clipboard.writeText(accessToken);
+  };
+
   return (
-    <AuthProvider>
-      {!authenticated && (
-        <AuthModal onAuthenticated={() => setAuthenticated(true)} />
-      )}
-      {authenticated && (
-        <div className="app-container">
-          <aside className="sidebar">
+    <div className="app-container">
+      <div className="top-bar">
+        <span className="user-name">{userName}</span>
+        <button className="button copy-token-button" onClick={handleCopyToken}>Copy Token</button>
+      </div>
+      <aside className="sidebar">
             <div className="sidebar-logo-container">
               <img
-                src="src/public/Logo_Darkblue.svg"
+                src={LogoDarkblue}
                 alt="Ingestro Logo"
                 className="sidebar-logo-img"
               />
@@ -124,7 +123,6 @@ const App: React.FC = () => {
                 { label: "Create", active: activeTab === "CreateConnector", onClick: () => setActiveTab("CreateConnector") },
                 { label: "Read", active: activeTab === "ReadConnector", onClick: () => setActiveTab("ReadConnector") },
                 { label: "Delete", active: activeTab === "DeleteConnector", onClick: () => setActiveTab("DeleteConnector") },
-                { label: "List", active: activeTab === "ConnectorList", onClick: () => setActiveTab("ConnectorList") },
                 { label: "Details", active: activeTab === "ConnectorDetails", onClick: () => setActiveTab("ConnectorDetails") },
               ]}
             />
@@ -136,7 +134,6 @@ const App: React.FC = () => {
               buttons={[
                 { label: "Create", active: activeTab === "CreateTDM", onClick: () => setActiveTab("CreateTDM") },
                 { label: "Read", active: activeTab === "ReadTDMs", onClick: () => setActiveTab("ReadTDMs") },
-                { label: "List", active: activeTab === "TargetDataModelList", onClick: () => setActiveTab("TargetDataModelList") },
                 { label: "Details", active: activeTab === "TargetDataModelDetails", onClick: () => setActiveTab("TargetDataModelDetails") },
               ]}
             />
@@ -157,24 +154,16 @@ const App: React.FC = () => {
               ]}
             />
 
-            <SidebarSection
-              label="Execution"
-              open={openSection === "Execution"}
-              onClick={() => toggleSection("Execution")}
-              buttons={[
-                { label: "List", active: activeTab === "ExecutionList", onClick: () => setActiveTab("ExecutionList") }
-              ]}
-            />
 
             <SidebarButton
               active={activeTab === "FileUpload"}
               onClick={() => setActiveTab("FileUpload")}
               label="File Upload"
             />
-          </aside>
+      </aside>
 
-          <main className="main-content">
-            {["CreatePipeline", "PipelineDetails", "ExecutionList", "FileUpload", "ConnectorList", "ConnectorDetails", "TargetDataModelList", "TargetDataModelDetails"].includes(activeTab) ? (
+      <main className="main-content">
+            {["CreatePipeline", "PipelineDetails", "FileUpload", "ConnectorDetails", "TargetDataModelDetails"].includes(activeTab) ? (
               <div className="embed-container">
                 {renderTabContent()}
               </div>
@@ -183,10 +172,8 @@ const App: React.FC = () => {
                 {renderTabContent()}
               </div>
             )}
-          </main>
-        </div>
-      )}
-    </AuthProvider>
+      </main>
+    </div>
   );
 };
 
