@@ -10,6 +10,10 @@ import CreatePipelineEmbed from "./components/CreatePipelineEmbed";
 import ExecutionListEmbed from "./components/ExecutionListEmbed";
 import PipelineDetailsEmbed from "./components/PipelineDetailsEmbed";
 import FileUploadEmbeddable from "./components/FileUploadEmbeddable";
+import ConnectorListEmbed from "./components/ConnectorListEmbed";
+import ConnectorDetailsEmbed from "./components/ConnectorDetailsEmbed";
+import TargetDataModelListEmbed from "./components/TargetDataModelListEmbed";
+import TargetDataModelDetailsEmbed from "./components/TargetDataModelDetailsEmbed";
 import { AuthProvider } from "./auth/AuthContext";
 import AuthModal from "./auth/AuthModal";
 
@@ -77,6 +81,14 @@ const App: React.FC = () => {
         return <PipelineDetailsEmbed />;
       case "FileUpload":
         return <FileUploadEmbeddable />;
+      case "ConnectorList":
+        return <ConnectorListEmbed />;
+      case "ConnectorDetails":
+        return <ConnectorDetailsEmbed />;
+      case "TargetDataModelList":
+        return <TargetDataModelListEmbed />;
+      case "TargetDataModelDetails":
+        return <TargetDataModelDetailsEmbed />;
       default:
         return null;
     }
@@ -112,6 +124,8 @@ const App: React.FC = () => {
                 { label: "Create", active: activeTab === "CreateConnector", onClick: () => setActiveTab("CreateConnector") },
                 { label: "Read", active: activeTab === "ReadConnector", onClick: () => setActiveTab("ReadConnector") },
                 { label: "Delete", active: activeTab === "DeleteConnector", onClick: () => setActiveTab("DeleteConnector") },
+                { label: "List", active: activeTab === "ConnectorList", onClick: () => setActiveTab("ConnectorList") },
+                { label: "Details", active: activeTab === "ConnectorDetails", onClick: () => setActiveTab("ConnectorDetails") },
               ]}
             />
 
@@ -122,6 +136,8 @@ const App: React.FC = () => {
               buttons={[
                 { label: "Create", active: activeTab === "CreateTDM", onClick: () => setActiveTab("CreateTDM") },
                 { label: "Read", active: activeTab === "ReadTDMs", onClick: () => setActiveTab("ReadTDMs") },
+                { label: "List", active: activeTab === "TargetDataModelList", onClick: () => setActiveTab("TargetDataModelList") },
+                { label: "Details", active: activeTab === "TargetDataModelDetails", onClick: () => setActiveTab("TargetDataModelDetails") },
               ]}
             />
 
@@ -158,7 +174,7 @@ const App: React.FC = () => {
           </aside>
 
           <main className="main-content">
-            {["CreatePipeline", "PipelineDetails", "ExecutionList", "FileUpload"].includes(activeTab) ? (
+            {["CreatePipeline", "PipelineDetails", "ExecutionList", "FileUpload", "ConnectorList", "ConnectorDetails", "TargetDataModelList", "TargetDataModelDetails"].includes(activeTab) ? (
               <div className="embed-container">
                 {renderTabContent()}
               </div>
