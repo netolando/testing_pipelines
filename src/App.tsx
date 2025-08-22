@@ -14,7 +14,7 @@ import ConnectorListEmbed from "./components/ConnectorListEmbed";
 import ConnectorDetailsEmbed from "./components/ConnectorDetailsEmbed";
 import TargetDataModelListEmbed from "./components/TargetDataModelListEmbed";
 import TargetDataModelDetailsEmbed from "./components/TargetDataModelDetailsEmbed";
-import { AuthProvider } from "./auth/AuthContext";
+import { useAuth } from "./auth/AuthContext";
 import AuthModal from "./auth/AuthModal";
 
 import "./styles.css";
@@ -47,9 +47,9 @@ const SidebarSection: React.FC<{
 );
 
 const App: React.FC = () => {
+  const { accessToken, userName } = useAuth();
   const [activeTab, setActiveTab] = useState("AccessToken");
   const [openSection, setOpenSection] = useState<string | null>(null);
-  const [authenticated, setAuthenticated] = useState(false);
 
   // Removed code that forcibly hides parts of the embedded pipeline component
 
@@ -94,14 +94,21 @@ const App: React.FC = () => {
     }
   };
 
+  if (!accessToken) {
+    return <AuthModal />;
+  }
+
+  const handleCopyToken = () => {
+    navigator.clipboard.writeText(accessToken);
+  };
+
   return (
-    <AuthProvider>
-      {!authenticated && (
-        <AuthModal onAuthenticated={() => setAuthenticated(true)} />
-      )}
-      {authenticated && (
-        <div className="app-container">
-          <aside className="sidebar">
+    <div className="app-container">
+      <div className="top-bar">
+        <span className="user-name">{userName}</span>
+        <button className="button copy-token-button" onClick={handleCopyToken}>Copy Token</button>
+      </div>
+      <aside className="sidebar">
             <div className="sidebar-logo-container">
               <img
                 src="src/public/Logo_Darkblue.svg"
@@ -171,9 +178,9 @@ const App: React.FC = () => {
               onClick={() => setActiveTab("FileUpload")}
               label="File Upload"
             />
-          </aside>
+      </aside>
 
-          <main className="main-content">
+      <main className="main-content">
             {["CreatePipeline", "PipelineDetails", "ExecutionList", "FileUpload", "ConnectorList", "ConnectorDetails", "TargetDataModelList", "TargetDataModelDetails"].includes(activeTab) ? (
               <div className="embed-container">
                 {renderTabContent()}
@@ -183,10 +190,8 @@ const App: React.FC = () => {
                 {renderTabContent()}
               </div>
             )}
-          </main>
-        </div>
-      )}
-    </AuthProvider>
+      </main>
+    </div>
   );
 };
 
