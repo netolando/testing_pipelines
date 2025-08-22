@@ -27,23 +27,25 @@ const verifyAccessToken = async (accessToken: string) => {
       access_token: accessToken,
     },
   });
+  if (!response.ok) {
+    throw new Error("Failed to verify access token");
+  }
   return response.json();
 };
 
 const AuthModal: React.FC = () => {
   const { setAccessToken, setUserName } = useAuth();
   const [mode, setMode] = useState<'token' | 'license'>('token');
-  const [accessToken, setAccessTokenInput] = useState('');
-  const [name, setName] = useState(''); // optional, not required in token flow
+  const [tokenInput, setTokenInput] = useState('');
   const [email, setEmail] = useState('');
   const [licenseKey, setLicenseKey] = useState('');
   const [error, setError] = useState('');
 
   const handleTokenSubmit = async () => {
-    if (accessToken.trim()) {
+    if (tokenInput.trim()) {
       try {
-        const verifyResponse = await verifyAccessToken(accessToken.trim());
-        setAccessToken(accessToken.trim());
+        const verifyResponse = await verifyAccessToken(tokenInput.trim());
+        setAccessToken(tokenInput.trim());
         setUserName(verifyResponse.data?.name || '');
         setError('');
       } catch {
@@ -92,20 +94,12 @@ const AuthModal: React.FC = () => {
 
         {mode === 'token' ? (
           <div className="auth-form">
-            {/* Name is optional in token flow; keep field if UX needs it */}
-            <input
-              className="input"
-              type="text"
-              placeholder="Name (optional)"
-              value={name}
-              onChange={e => setName(e.target.value)}
-            />
             <input
               className="input"
               type="text"
               placeholder="Access Token"
-              value={accessToken}
-              onChange={e => setAccessTokenInput(e.target.value)}
+              value={tokenInput}
+              onChange={e => setTokenInput(e.target.value)}
             />
             <button className="button" onClick={handleTokenSubmit}>Submit</button>
           </div>
