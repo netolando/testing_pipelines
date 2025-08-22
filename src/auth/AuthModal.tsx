@@ -1,29 +1,26 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthContext';
 
-type Props = {
-    onAuthenticated: () => void;
-};
-
 const mockFetchAccessToken = async (email: string, licenseKey: string) => {
     // Replace with real API call
     return Promise.resolve('mocked_access_token');
 };
 
-const AuthModal: React.FC<Props> = ({ onAuthenticated }) => {
-    const { setAccessToken } = useAuth();
+const AuthModal: React.FC = () => {
+    const { setAccessToken, setUserName } = useAuth();
     const [mode, setMode] = useState<'token' | 'license'>('token');
     const [accessToken, setAccessTokenInput] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [licenseKey, setLicenseKey] = useState('');
     const [error, setError] = useState('');
 
     const handleTokenSubmit = () => {
-        if (accessToken.trim()) {
+        if (accessToken.trim() && name.trim()) {
             setAccessToken(accessToken.trim());
-            onAuthenticated();
+            setUserName(name.trim());
         } else {
-            setError('Please enter a valid access token.');
+            setError('Please enter a name and access token.');
         }
     };
 
@@ -32,7 +29,7 @@ const AuthModal: React.FC<Props> = ({ onAuthenticated }) => {
             try {
                 const token = await mockFetchAccessToken(email, licenseKey);
                 setAccessToken(token);
-                onAuthenticated();
+                setUserName(email.trim());
             } catch {
                 setError('Failed to authenticate with email and license key.');
             }
@@ -57,6 +54,13 @@ const AuthModal: React.FC<Props> = ({ onAuthenticated }) => {
                 </div>
                 {mode === 'token' ? (
                     <div className="auth-form">
+                        <input
+                            className="input"
+                            type="text"
+                            placeholder="Name"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                        />
                         <input
                             className="input"
                             type="text"
