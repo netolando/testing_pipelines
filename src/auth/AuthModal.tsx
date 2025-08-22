@@ -48,6 +48,8 @@ const AuthModal: React.FC = () => {
         setAccessToken(tokenInput.trim());
         setUserName(verifyResponse.data?.name || '');
         setError('');
+        // Refresh the app so that the main interface renders
+        window.location.reload();
       } catch {
         setError('Failed to verify access token.');
       }
@@ -65,6 +67,8 @@ const AuthModal: React.FC = () => {
         setAccessToken(token);
         setUserName(verifyResponse.data?.name || '');
         setError('');
+        // Refresh the app so that the main interface renders
+        window.location.reload();
       } catch {
         setError('Failed to authenticate with email and license key.');
       }
