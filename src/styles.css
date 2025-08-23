@@ -174,8 +174,8 @@ body {
   background-color: var(--nuvo-white);
   border-radius: 0;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.07);
-  width: 100%;
-  max-width: 900px;
+  width: 90vw;
+  max-width: 1200px;
   padding: 48px 40px;
   /* Add this for better spacing and appearance */
   padding: 8px 16px;

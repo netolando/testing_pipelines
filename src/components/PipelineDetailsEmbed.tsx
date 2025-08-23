@@ -14,6 +14,7 @@ const PipelineDetailsEmbed: React.FC = () => {
     null
   );
   const [error, setError] = useState<string | null>(null);
+  const [selectedExecutionId, setSelectedExecutionId] = useState<string | null>(null);
 
   const handlePipelineSelect = ({ data }: { data: PipelineData }) => {
     if (data && data.id) {
@@ -41,6 +42,34 @@ const PipelineDetailsEmbed: React.FC = () => {
             pipelineId={selectedPipelineId}
             settings={{ modal: false }}
           />
+          {/* Show ExecutionDetails if an execution is selected, otherwise show ExecutionList */}
+          <div style={{ marginTop: "2rem" }}>
+            {selectedExecutionId ? (
+              <ExecutionDetails
+                accessToken={accessToken || ""}
+                executionId={selectedExecutionId}
+                settings={{ i18nOverrides: {}, language: "en", modal: false }}
+                onExecutionRun={({ data }) => {
+                  // Optionally handle rerun result
+                }}
+                onClose={() => {
+                  setSelectedExecutionId(null);
+                }}
+              />
+            ) : (
+              <ExecutionList
+                accessToken={accessToken || ""}
+                pipelineId={selectedPipelineId}
+                settings={{ i18nOverrides: {}, language: "en", modal: false }}
+                onExecutionView={({ data }: { data: { id: string } }) => {
+                  setSelectedExecutionId(data.id);
+                }}
+                onClose={() => {
+                  setSelectedExecutionId(null);
+                }}
+              />
+            )}
+          </div>
         </div>
       );
     }
@@ -60,5 +89,8 @@ const PipelineDetailsEmbed: React.FC = () => {
     </div>
   );
 };
+
+// Import ExecutionList and ExecutionDetails from @getnuvo/pipelines-react
+import { ExecutionList, ExecutionDetails } from "@getnuvo/pipelines-react";
 
 export default PipelineDetailsEmbed;
