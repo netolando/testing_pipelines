@@ -44,12 +44,17 @@ const AuthModal: React.FC = () => {
   const handleTokenSubmit = async () => {
     if (tokenInput.trim()) {
       try {
+        console.log('[AuthModal] Submitting token:', tokenInput.trim());
         const verifyResponse = await verifyAccessToken(tokenInput.trim());
+        console.log('[AuthModal] Verification response:', verifyResponse);
         setAccessToken(tokenInput.trim());
+        console.log('[AuthModal] setAccessToken called with:', tokenInput.trim());
         setUserName(verifyResponse.data?.name || '');
+        console.log('[AuthModal] setUserName called with:', verifyResponse.data?.name || '');
         setError('');
-        // Refresh the app so that the main interface renders
-        window.location.reload();
+        localStorage.setItem('accessToken', tokenInput.trim());
+        localStorage.setItem('userName', verifyResponse.data?.name || '');
+        console.log('[AuthModal] Token and userName stored. Modal should close and app should re-render.');
       } catch {
         setError('Failed to verify access token.');
       }
@@ -61,14 +66,20 @@ const AuthModal: React.FC = () => {
   const handleLicenseSubmit = async () => {
     if (email.trim() && licenseKey.trim()) {
       try {
+        console.log('[AuthModal] Submitting email/license:', email.trim(), licenseKey.trim());
         const tokenResponse = await getAccessToken(email.trim(), licenseKey.trim());
-        const token = tokenResponse.access_token;
+        console.log('[AuthModal] Token response:', tokenResponse);
+        const token = tokenResponse.data?.access_token;
         const verifyResponse = await verifyAccessToken(token);
+        console.log('[AuthModal] Verification response:', verifyResponse);
         setAccessToken(token);
+        console.log('[AuthModal] setAccessToken called with:', token);
         setUserName(verifyResponse.data?.name || '');
+        console.log('[AuthModal] setUserName called with:', verifyResponse.data?.name || '');
         setError('');
-        // Refresh the app so that the main interface renders
-        window.location.reload();
+        localStorage.setItem('accessToken', token);
+        localStorage.setItem('userName', verifyResponse.data?.name || '');
+        console.log('[AuthModal] Token and userName stored. Modal should close and app should re-render.');
       } catch {
         setError('Failed to authenticate with email and license key.');
       }

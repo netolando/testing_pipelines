@@ -104,14 +104,14 @@ const ExecutionListEmbed: React.FC = () => {
 
   if (!accessToken) {
     return (
-      <div className="component-container">
+      <div className="embeddable-container">
         <p style={{ color: "#fff" }}>Please authenticate first.</p>
       </div>
     );
   }
 
   return (
-    <div className="component-container">
+    <div className="embeddable-container">
       {error && <div className="error-box">{error}</div>}
 
       {!selectedPipeline && !selectedExecution && (

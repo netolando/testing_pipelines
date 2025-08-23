@@ -8,7 +8,7 @@ const ConnectorListEmbed: React.FC = () => {
   const { accessToken } = useAuth();
 
   return (
-    <div className="component-container">
+    <div className="embeddable-container">
       <ConnectorList
         accessToken={accessToken || ""}
         settings={{ language: "en", modal: false, allowConnectorCreation: false }}

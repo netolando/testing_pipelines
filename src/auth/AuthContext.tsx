@@ -16,34 +16,53 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [accessToken, setAccessTokenState] = useState<string | null>(() => {
-        return localStorage.getItem('accessToken');
+        const token = localStorage.getItem('accessToken');
+        console.log('[AuthContext] Initial accessToken from localStorage:', token);
+        return token;
     });
     const [userName, setUserNameState] = useState<string | null>(() => {
-        return localStorage.getItem('userName');
+        const name = localStorage.getItem('userName');
+        console.log('[AuthContext] Initial userName from localStorage:', name);
+        return name;
     });
+
+    React.useEffect(() => {
+        console.log('[AuthContext] accessToken changed:', accessToken);
+    }, [accessToken]);
+    React.useEffect(() => {
+        console.log('[AuthContext] userName changed:', userName);
+    }, [userName]);
 
     useEffect(() => {
         if (accessToken) {
             localStorage.setItem('accessToken', accessToken);
+            console.log('[AuthContext] accessToken updated in localStorage:', accessToken);
         } else {
             localStorage.removeItem('accessToken');
+            console.log('[AuthContext] accessToken removed from localStorage');
         }
     }, [accessToken]);
 
     useEffect(() => {
         if (userName) {
             localStorage.setItem('userName', userName);
+            console.log('[AuthContext] userName updated in localStorage:', userName);
         } else {
             localStorage.removeItem('userName');
+            console.log('[AuthContext] userName removed from localStorage');
         }
     }, [userName]);
 
     const setAccessToken = (token: string) => {
+        console.log('[AuthContext] setAccessToken called:', token);
         setAccessTokenState(token);
+        console.log('[AuthContext] setAccessToken finished, new value:', token);
     };
 
     const setUserName = (name: string) => {
+        console.log('[AuthContext] setUserName called:', name);
         setUserNameState(name);
+        console.log('[AuthContext] setUserName finished, new value:', name);
     };
 
     return (

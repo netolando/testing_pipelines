@@ -1,3 +1,88 @@
+/* Sidebar logout container at bottom, centered */
+.sidebar-logout-container {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  z-index: 2;
+}
+/* Sidebar user actions at bottom */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
+
+/* Sidebar user actions at bottom */
+.sidebar-user-actions {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+}
+
+.sidebar-user-actions .user-name {
+  color: var(--nuvo-dark-blue);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.copy-token-button {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 6px;
+  background: #FBBF24;
+  color: #162338;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+.copy-token-button:hover {
+  background: #f9a602;
+}
+
+/* Log Out button styling */
+.logout-button {
+  width: 100% !important;
+  padding: 12px 0;
+  font-size: 1rem;
+  border-radius: 24px;
+  background: #EF4444;
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logout-button:hover {
+  background: #dc2626;
+}
+
+/* Sidebar logout container at bottom, centered */
+.sidebar-logout-container {
+  position: absolute;
+  bottom: 32px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap");
 
 @font-face {
@@ -66,16 +151,23 @@ body {
 /* Top bar with user info */
 .top-bar {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 24px;
+  right: 32px;
   display: flex;
-  gap: 8px;
+  gap: 16px;
   align-items: center;
+  z-index: 10;
+  background: rgba(22, 35, 56, 0.85);
+  padding: 8px 16px;
+  border-radius: 8px;
 }
 
 .user-name {
   color: var(--nuvo-white);
   font-weight: 700;
+  font-size: 1.1rem;
+  margin-right: 8px;
+  white-space: nowrap;
 }
 
 .content-box {
@@ -85,6 +177,21 @@ body {
   width: 100%;
   max-width: 900px;
   padding: 48px 40px;
+  /* Add this for better spacing and appearance */
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 6px;
+  color: var(--nuvo-white);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  white-space: nowrap;
+}
+.copy-token-button:hover {
+  background: #1152d5;
 }
 
 .content-title {
@@ -95,6 +202,7 @@ body {
   margin-bottom: 2rem;
 }
 
+
 /* Sidebar */
 .sidebar {
   width: 220px;
@@ -104,6 +212,7 @@ body {
   flex-direction: column;
   align-items: stretch;
   padding: 24px 0;
+  position: relative;
 }
 
 .sidebar-logo {
@@ -204,6 +313,11 @@ body {
 .sidebar-submenu .sidebar-button {
   text-align: left;
   padding-left: 12px;
+}
+.sidebar-submenu .sidebar-button {
+  text-align: left;
+  padding-left: 12px;
+  color: #508EF2 !important;
 }
 
 @keyframes fadeIn {

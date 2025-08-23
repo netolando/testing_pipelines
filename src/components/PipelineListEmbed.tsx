@@ -8,7 +8,7 @@ const PipelineListEmbed: React.FC = () => {
   const { accessToken } = useAuth();
 
   return (
-    <div className="component-container">
+    <div className="embeddable-container">
       <PipelineList
         accessToken={accessToken || ""}
         settings={{ modal: false }}

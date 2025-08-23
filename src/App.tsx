@@ -18,8 +18,15 @@ import AuthModal from "./auth/AuthModal";
 import "./styles.css";
 
 // Sidebar button styled using global classes
-const SidebarButton: React.FC<{ active: boolean; onClick: () => void; label: string }> = ({ active, onClick, label }) => (
-  <button onClick={onClick} className={`sidebar-button${active ? " active" : ""}`}>
+const SidebarButton: React.FC<{ active: boolean; onClick: () => void; label: string; className?: string }> = ({ active, onClick, label, className }) => (
+  <button
+    onClick={onClick}
+    className={
+      className
+        ? `sidebar-button ${className}`
+        : `sidebar-button${active ? " active" : ""}`
+    }
+  >
     {label}
   </button>
 );
@@ -45,15 +52,19 @@ const SidebarSection: React.FC<{
 );
 
 const App: React.FC = () => {
-  const { accessToken, userName } = useAuth();
+  const { accessToken, userName, setAccessToken, setUserName } = useAuth();
+  console.log('[App] accessToken:', accessToken);
+  console.log('[App] userName:', userName);
   const [activeTab, setActiveTab] = useState("AccessToken");
   const [openSection, setOpenSection] = useState<string | null>(null);
 
   const toggleSection = (section: string) => {
+    console.log('[App] Toggling section:', section);
     setOpenSection((prev) => (prev === section ? null : section));
   };
 
   const renderTabContent = () => {
+    console.log('[App] Rendering tab:', activeTab);
     switch (activeTab) {
       case "AccessToken":
         return <AccessTokenComponent />;
@@ -85,18 +96,27 @@ const App: React.FC = () => {
   };
 
   if (!accessToken) {
+    console.log('[App] No accessToken, showing AuthModal');
     return <AuthModal />;
   }
 
   const handleCopyToken = () => {
+    console.log('[App] Copying token:', accessToken);
     navigator.clipboard.writeText(accessToken);
+  };
+
+  const handleLogout = () => {
+    setAccessToken("");
+    setUserName("");
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userName');
   };
 
   return (
     <div className="app-container">
       <div className="top-bar">
         <span className="user-name">{userName}</span>
-        <button className="button copy-token-button" onClick={handleCopyToken}>
+        <button className="copy-token-button" onClick={handleCopyToken}>
           Copy Token
         </button>
       </div>
@@ -110,6 +130,12 @@ const App: React.FC = () => {
           onClick={() => setActiveTab("AccessToken")}
           label="Access Token"
         />
+        {/* Home section */}
+        <SidebarButton
+          active={activeTab === "Home"}
+          onClick={() => setActiveTab("Home")}
+          label="Home"
+        />
 
         <SidebarSection
           label="Connectors"
@@ -120,16 +146,6 @@ const App: React.FC = () => {
               label: "Create",
               active: activeTab === "CreateConnector",
               onClick: () => setActiveTab("CreateConnector"),
-            },
-            {
-              label: "Read",
-              active: activeTab === "ReadConnector",
-              onClick: () => setActiveTab("ReadConnector"),
-            },
-            {
-              label: "Delete",
-              active: activeTab === "DeleteConnector",
-              onClick: () => setActiveTab("DeleteConnector"),
             },
             {
               label: "Details",
@@ -150,11 +166,6 @@ const App: React.FC = () => {
               onClick: () => setActiveTab("CreateTDM"),
             },
             {
-              label: "Read",
-              active: activeTab === "ReadTDMs",
-              onClick: () => setActiveTab("ReadTDMs"),
-            },
-            {
               label: "Details",
               active: activeTab === "TargetDataModelDetails",
               onClick: () => setActiveTab("TargetDataModelDetails"),
@@ -162,11 +173,13 @@ const App: React.FC = () => {
           ]}
         />
 
-        <SidebarButton
+        {/* Users section removed */}
+        {/* Users section hidden */}
+        {/* <SidebarButton
           active={activeTab === "ReadUsers"}
           onClick={() => setActiveTab("ReadUsers")}
           label="Users"
-        />
+        /> */}
 
         <SidebarSection
           label="Pipelines"
@@ -191,12 +204,21 @@ const App: React.FC = () => {
           onClick={() => setActiveTab("FileUpload")}
           label="File Upload"
         />
+
+        {/* Logout button at bottom, centered */}
+        {/* Log Out button at bottom, centered */}
+        <div className="sidebar-logout-container">
+          <SidebarButton
+            active={false}
+            onClick={handleLogout}
+            label="Log Out"
+            className="logout-button"
+          />
+        </div>
       </aside>
 
       <main className="main-content">
-        {["CreatePipeline", "PipelineDetails", "FileUpload", "ConnectorDetails", "TargetDataModelDetails"].includes(
-          activeTab
-        ) ? (
+        {activeTab === "Home" ? (
           <div className="embed-container">{renderTabContent()}</div>
         ) : (
           <div className="content-box">{renderTabContent()}</div>

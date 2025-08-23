@@ -1,75 +1,63 @@
 import React, { useState } from "react";
 import { useAuth } from "../auth/AuthContext";
-import "../styles.css";
+import { CreateTargetDataModel, TargetDataModelDetails } from "@getnuvo/pipelines-react";
+import "@getnuvo/pipelines-react/index.css";
 
 const CreateTDMComponent: React.FC = () => {
   const { accessToken } = useAuth();
-  const [name, setName] = useState("");
-  const [tdmDefinition, setTdmDefinition] = useState("{}");
-  const [loading, setLoading] = useState(false);
-  const [responseData, setResponseData] = useState(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(
-        "https://api-gateway.getnuvo.com/dp/api/v1/tdm",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken || ""}`,
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            tdm_definition: JSON.parse(tdmDefinition),
-          }),
-        }
-      );
-
-      if (!response.ok) throw new Error("Failed to create TDM");
-
-      const data = await response.json();
-      setResponseData(data);
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [createdTdmId, setCreatedTdmId] = useState<string | null>(null);
+  const [showDetails, setShowDetails] = useState(false);
 
   return (
-    <div className="component-container">
-      <h2>Create TDM</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <input
-          type="text"
-          placeholder="TDM Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="input"
-          required
-        />
-        <textarea
-          placeholder="TDM Definition JSON"
-          value={tdmDefinition}
-          onChange={(e) => setTdmDefinition(e.target.value)}
-          className="input"
-          rows={10}
-        />
-        <button type="submit" className="button" disabled={loading || !accessToken}>
-          {loading ? "Creating..." : "Create TDM"}
-        </button>
-      </form>
-      {error && <div className="error-box">{error}</div>}
-      {responseData && (
-        <div className="result-box">
-          <strong>TDM Created!</strong>
-          <pre>{JSON.stringify(responseData, null, 2)}</pre>
+    <div className="embeddable-resizable-box">
+      {showDetails && createdTdmId ? (
+        <div className="embeddable-content">
+          <TargetDataModelDetails
+            accessToken={accessToken || ""}
+            targetDataModelId={createdTdmId}
+            settings={{ i18nOverrides: {}, language: "en", modal: false }}
+            onTargetDataModelUpdate={({ data }) => { }}
+            onTargetDataModelDelete={({ data }) => {
+              setShowDetails(false);
+              setCreatedTdmId(null);
+            }}
+            onClose={() => {
+              setShowDetails(false);
+              setCreatedTdmId(null);
+            }}
+          />
+        </div>
+      ) : (
+        <div className="embeddable-content">
+          <CreateTargetDataModel
+            accessToken={accessToken || ""}
+            configuration={{}}
+            settings={{ modal: false }}
+            onTargetDataModelCreate={async () => {
+              try {
+                const response = await fetch("https://api-gateway.ingestro.com/dp/api/v1/tdm/", {
+                  method: "GET",
+                  headers: {
+                    Authorization: `Bearer ${accessToken || ""}`,
+                    Accept: "application/json",
+                  },
+                });
+                const result = await response.json();
+                const tdmList = result?.data || [];
+                if (tdmList.length > 0) {
+                  // Get the newest TDM by created_at
+                  const newestTdm = tdmList.reduce((latest: any, item: any) => {
+                    return new Date(item.created_at) > new Date(latest.created_at) ? item : latest;
+                  }, tdmList[0]);
+                  setCreatedTdmId(newestTdm.id);
+                  setShowDetails(true);
+                }
+              } catch (err) {
+                // Optionally handle error
+              }
+            }}
+            onClose={() => { }}
+          />
         </div>
       )}
     </div>
